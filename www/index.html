@@ -1,197 +1,39 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mesut IPTV</title>
-<link rel="icon" href="icon.svg">
-<link rel="apple-touch-icon" href="icon.svg">
-<meta name="theme-color" content="#141414">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.13/hls.min.js"></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#090b14"><title>Mesut IPTV</title>
+<link rel="icon" href="icon.svg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17"></script>
 <style>
-:root{--bg:#141414;--card:#222;--red:#e50914;--tx:#fff;--mut:#b3b3b3}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--tx);font-family:system-ui,"Segoe UI",Tahoma,sans-serif}
-.hide{display:none!important}
-header{position:fixed;top:0;inset-inline:0;z-index:20;display:flex;align-items:center;gap:16px;padding:14px 4%;background:linear-gradient(#000c,transparent)}
-header.solid{background:#141414}
-.logo{color:var(--red);font-weight:900;font-size:26px;letter-spacing:1px}
-nav{display:flex;gap:14px;flex:1;overflow-x:auto}
-nav button{background:none;border:0;color:var(--mut);font-size:15px;cursor:pointer;white-space:nowrap}
-nav button.on{color:#fff;font-weight:700}
-#q{background:#000a;border:1px solid #555;color:#fff;padding:7px 12px;border-radius:4px;width:150px}
-.ic{background:none;border:0;color:#fff;font-size:20px;cursor:pointer}
-#login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(circle at 30% 20%,#3a0508,#000 70%)}
-.box{background:#000c;padding:34px;border-radius:8px;width:100%;max-width:440px}
-.box h1{color:var(--red);font-size:34px;margin-bottom:6px}
-.box p{color:var(--mut);margin-bottom:18px;font-size:14px}
-.box input,.box textarea{width:100%;background:#333;border:0;color:#fff;padding:13px;border-radius:4px;margin-bottom:12px;font:inherit;direction:ltr;text-align:left}
-.btn{width:100%;background:var(--red);color:#fff;border:0;padding:13px;border-radius:4px;font-size:16px;font-weight:700;cursor:pointer;margin-bottom:10px}
-.btn.sec{background:#333}
-#err{color:#ff7b7b;font-size:13px;min-height:18px}
-#hero{height:62vh;min-height:360px;display:flex;align-items:flex-end;padding:0 4% 60px;background:linear-gradient(0deg,#141414,#0000 60%),linear-gradient(135deg,#5a0b10,#111);background-size:cover;background-position:center}
-#hero h2{font-size:clamp(26px,5vw,52px);max-width:600px;margin-bottom:12px}
-#hero .b{display:flex;gap:10px}
-#hero .b button{padding:10px 26px;border:0;border-radius:4px;font-size:16px;font-weight:700;cursor:pointer}
-.row{padding:0 4%;margin-bottom:26px}
-.row h3{margin-bottom:10px;font-size:19px}
-.sc{display:flex;gap:8px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}
-.c{flex:0 0 auto;width:160px;aspect-ratio:2/3;background:var(--card);border-radius:4px;overflow:hidden;position:relative;cursor:pointer;transition:transform .2s}
-.c:hover,.c:focus{transform:scale(1.07);z-index:2}.c:focus,.btn:focus,nav button:focus,.ic:focus,#hero button:focus,.e:focus{outline:3px solid #fff;outline-offset:2px}input:focus{outline:2px solid #fff}
-.c img{width:100%;height:100%;object-fit:contain;padding:14px;background:#1b1b1b}
-.c span{position:absolute;bottom:0;inset-inline:0;padding:22px 8px 8px;background:linear-gradient(transparent,#000);font-size:13px;text-align:center}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;padding:90px 4% 30px}
-.grid .c{width:auto}
-#pl{position:fixed;inset:0;background:#000;z-index:50;display:flex;flex-direction:column}
-#pl video{flex:1;width:100%;min-height:0;background:#000}
-#pb{position:absolute;top:0;inset-inline:0;padding:14px 4%;display:flex;gap:14px;align-items:center;background:linear-gradient(#000c,transparent)}
-#msg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;color:#ff9b9b;text-align:center;padding:20px}
-#ep{position:fixed;inset:0;background:#000e;z-index:40;overflow:auto;padding:70px 4% 30px}#ep h2{margin-bottom:14px}#ep .e{background:#222;padding:12px;border-radius:4px;margin-bottom:6px;cursor:pointer}#ep .e:hover{background:#333}.sep{color:var(--mut);text-align:center;margin:6px 0 12px;font-size:13px}
-@media(max-width:600px){#q{width:100px}.c{width:120px}}
-</style>
-</head>
-<body>
-
-<section id="login">
- <div class="box">
-  <h1>Mesut</h1>
-  <p>سجّل الدخول بحساب Xtream</p>
-  <input id="xs" placeholder="السيرفر  http://example.com:8080">
-  <input id="xu" placeholder="اسم المستخدم" autocomplete="username">
-  <input id="xp" type="password" placeholder="كلمة المرور" autocomplete="current-password">
-  <button class="btn" id="goX">دخول (Xtream)</button>
-  <div id="err"></div>
- </div>
-</section>
-
-<main id="app" class="hide">
- <header id="hd">
-  <div class="logo">MESUT</div>
-  <nav id="nav"></nav>
-  <input id="q" type="search" placeholder="بحث…">
-  <button class="ic" id="out" title="تغيير القائمة">⟲</button>
- </header>
- <div id="home">
-  <div id="hero"><div><h2 id="ht"></h2><div class="b"><button style="background:#fff;color:#000" id="hp">▶ تشغيل</button></div></div></div>
-  <div id="rows"></div>
- </div>
- <div id="res" class="grid hide"></div>
-</main>
-
-<section id="ep" class="hide"><button class="ic" id="epc" style="position:absolute;top:16px;inset-inline-start:4%">✕</button><h2 id="eh"></h2><div id="el"></div></section>
-
-<section id="pl" class="hide">
- <div id="pb"><button class="ic" id="cl">✕</button><b id="pt"></b></div>
- <video id="v" controls autoplay playsinline></video>
- <div id="msg"></div>
-</section>
-
+:root{--bg:#090b14;--panel:#111522;--panel2:#171d2d;--line:#252d42;--text:#f5f7ff;--muted:#9aa4bb;--a:#8b5cf6;--b:#22d3ee;--gold:#f6c76b;--danger:#fb7185;--radius:18px}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% -10%,#25204b 0,transparent 42%),var(--bg);color:var(--text);font-family:Cairo,system-ui,sans-serif;min-height:100vh}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--b);outline-offset:3px}.hidden{display:none!important}.muted{color:var(--muted)}.small{font-size:12px}.wrap{max-width:1500px;margin:auto;padding:0 26px}.top{height:76px;position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:22px;padding:0 max(26px,calc((100vw - 1448px)/2));background:#090b14eF;border-bottom:1px solid #ffffff12;backdrop-filter:blur(18px)}.brand{display:flex;align-items:center;gap:10px;font-size:23px;font-weight:900;white-space:nowrap;letter-spacing:.4px}.brandmark{width:38px;height:38px;border-radius:13px;background:linear-gradient(135deg,var(--a),var(--b));display:grid;place-items:center;color:white;box-shadow:0 6px 25px #8b5cf655}.brand span:last-child{background:linear-gradient(90deg,#fff,#a5b4fc);background-clip:text;color:transparent}.nav{display:flex;gap:7px;flex:1;overflow:auto}.nav button,.ghost{border:0;color:var(--muted);background:transparent;border-radius:12px;padding:9px 14px;white-space:nowrap}.nav button.active,.nav button:hover{background:#8b5cf622;color:#fff}.actions{display:flex;align-items:center;gap:9px}.search{width:min(230px,22vw);background:var(--panel);border:1px solid var(--line);color:white;padding:10px 14px;border-radius:12px;direction:rtl}.primary{border:0;border-radius:12px;padding:11px 18px;background:linear-gradient(110deg,var(--a),#6558db 55%,#387fcb);color:#fff;font-weight:800;box-shadow:0 8px 24px #6658d933}.secondary{border:1px solid var(--line);background:var(--panel2);color:#fff;border-radius:12px;padding:10px 15px}.danger{color:#ff9aa9}.hero{margin:24px auto 32px;min-height:300px;border:1px solid #ffffff16;border-radius:26px;overflow:hidden;position:relative;background:linear-gradient(100deg,#15172a 0%,#211b43 52%,#102b3d 100%);display:flex;align-items:center;padding:42px}.hero:after{content:'▶';position:absolute;left:9%;top:50%;transform:translateY(-50%);font-size:140px;color:#ffffff0c;text-shadow:0 0 70px #9b8aff}.hero-content{position:relative;z-index:1;max-width:640px}.eyebrow{color:var(--b);font-size:13px;font-weight:800;letter-spacing:2px}.hero h1{font-size:clamp(30px,5vw,54px);line-height:1.25;margin:8px 0}.hero p{color:#c4c9dc;max-width:520px}.hero-buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.section{margin:30px 0}.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}.section h2{font-size:20px;margin:0}.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:14px}.tile{min-width:0;border:1px solid #ffffff0d;background:linear-gradient(145deg,#171d2c,#101522);border-radius:16px;overflow:hidden;position:relative;transition:.2s;cursor:pointer}.tile:hover{transform:translateY(-4px);border-color:#8b5cf666;box-shadow:0 12px 30px #0006}.poster{height:150px;background:linear-gradient(135deg,#272b45,#131a2b);display:grid;place-items:center;overflow:hidden}.poster img{width:100%;height:100%;object-fit:cover}.poster .fallback{font-size:34px;color:#a5b4fc}.tile-info{padding:10px 11px}.tile-title{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tile-sub{font-size:11px;color:var(--muted);margin-top:3px}.fav{position:absolute;top:8px;left:8px;border:0;border-radius:50%;width:30px;height:30px;background:#090b14c9;color:#fff;font-size:17px}.pill{display:inline-flex;align-items:center;gap:5px;background:#8b5cf622;color:#c4b5fd;padding:4px 9px;border-radius:30px;font-size:11px}.empty{border:1px dashed #38415b;border-radius:18px;padding:35px;text-align:center;color:var(--muted)}.screen{max-width:720px;margin:45px auto;padding:28px;background:#111522;border:1px solid var(--line);border-radius:22px}.screen h1{margin:0 0 8px}.field{display:flex;flex-direction:column;gap:6px;margin:13px 0}.field label{font-size:13px;color:#c4cbe0}.field input,.field select{width:100%;border:1px solid var(--line);background:#090e1a;color:#fff;border-radius:12px;padding:12px;direction:ltr;text-align:left}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.tabs button.selected{background:#8b5cf633;border-color:#8b5cf6;color:#fff}.msg{min-height:22px;color:var(--gold);font-size:13px}.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:20px 0}.player{position:fixed;inset:0;background:#03050a;z-index:60;display:flex;flex-direction:column}.playerbar{height:62px;display:flex;align-items:center;gap:12px;padding:0 18px;background:#0b0e18;border-bottom:1px solid #ffffff18}.player video{width:100%;height:calc(100% - 62px);background:#000;object-fit:contain}.player-title{font-weight:700;flex:1}.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#20283a;border:1px solid #3b4660;padding:11px 18px;border-radius:12px;z-index:100;box-shadow:0 10px 35px #0008}.settings-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.setting{padding:18px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}.foot{padding:35px 0 50px;color:#68738d;text-align:center;font-size:12px}.loading{opacity:.7;pointer-events:none}@media(max-width:800px){.top{height:auto;min-height:68px;padding:10px 14px;gap:10px;flex-wrap:wrap}.brand{font-size:19px}.nav{order:3;flex-basis:100%;padding-bottom:3px}.actions{margin-inline-start:auto}.search{width:125px}.wrap{padding:0 14px}.hero{min-height:250px;padding:25px}.hero:after{font-size:90px}.cards{grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:10px}.poster{height:130px}.screen{margin:22px 12px;padding:20px}}
+</style></head><body>
+<header class="top"><div class="brand"><span class="brandmark">M</span><span>MESUT IPTV</span></div><nav class="nav" id="nav"><button data-page="home" class="active">الرئيسية</button><button data-page="live">البث المباشر</button><button data-page="movies">الأفلام</button><button data-page="series">المسلسلات</button><button data-page="favorites">المفضلة</button><button data-page="settings">الإعدادات</button></nav><div class="actions"><input id="search" class="search" placeholder="ابحث عن محتوى…"><button class="secondary" id="addSource">＋ مصدر</button></div></header>
+<main class="wrap" id="main"><section id="homePage"><section class="hero"><div class="hero-content"><div class="eyebrow">YOUR ENTERTAINMENT HUB</div><h1>كل ترفيهك،<br>في مكان واحد.</h1><p>شاهد قنواتك وأفلامك ومسلسلاتك من قوائم IPTV التي تملك حق استخدامها، بواجهة منظمة وتجربة مشاهدة سلسة.</p><div class="hero-buttons"><button class="primary" id="heroLive">▶ ابدأ المشاهدة</button><button class="secondary" id="heroAdd">إضافة قائمة IPTV</button></div></div></section><div id="homeSections"></div></section><section id="catalogPage" class="hidden"><div class="section-head"><h2 id="catalogTitle">البث المباشر</h2><span class="pill" id="countPill">0 عنصر</span></div><div class="toolbar"><select class="secondary" id="groupFilter"><option value="all">كل التصنيفات</option></select><button class="secondary" id="refreshBtn">↻ تحديث</button></div><div id="catalog" class="cards"></div></section><section id="sourcePage" class="hidden"><div class="screen"><div class="eyebrow">MESUT IPTV / SOURCES</div><h1>إضافة مصدر IPTV</h1><p class="muted">أدخل بيانات اشتراكك أو استورد ملف M3U تملكه.</p><div class="tabs"><button class="secondary selected" data-tab="xtream">Xtream Codes</button><button class="secondary" data-tab="m3u">رابط M3U</button><button class="secondary" data-tab="file">ملف M3U</button></div><div id="xtreamForm"><div class="field"><label>عنوان السيرفر</label><input id="server" placeholder="http://example.com:8080"></div><div class="field"><label>اسم المستخدم</label><input id="username" autocomplete="username"></div><div class="field"><label>كلمة المرور</label><input id="password" type="password" autocomplete="current-password"></div></div><div id="m3uForm" class="hidden"><div class="field"><label>رابط قائمة M3U / M3U8</label><input id="m3uUrl" placeholder="https://example.com/playlist.m3u"></div></div><div id="fileForm" class="hidden"><div class="field"><label>اختر ملف M3U من الهاتف</label><input id="m3uFile" type="file" accept=".m3u,.m3u8,text/plain,audio/x-mpegurl"></div></div><div class="field"><label>رابط EPG اختياري (XMLTV)</label><input id="epgUrl" placeholder="https://example.com/guide.xml"></div><div class="msg" id="sourceMsg"></div><button class="primary" id="connectBtn">اتصال وحفظ المصدر</button><button class="secondary" id="cancelSource">إلغاء</button></div></section><section id="settingsPage" class="hidden"><div class="section-head"><h2>الإعدادات وإدارة المصادر</h2></div><div class="settings-grid"><div class="setting"><h3>مصادري</h3><div id="sourceList" class="muted small">لا توجد مصادر محفوظة</div></div><div class="setting"><h3>دليل البرامج EPG</h3><p class="muted small">يمكن ربط رابط XMLTV عند إضافة المصدر. بيانات البرامج تظهر إذا وفرها المصدر.</p><button class="secondary" id="reloadData">إعادة تحميل البيانات</button></div><div class="setting"><h3>التخزين</h3><p class="muted small">تُحفظ إعدادات المصادر والمفضلة محلياً على جهازك.</p><button class="secondary danger" id="clearData">مسح البيانات المحلية</button></div><div class="setting"><h3>حول التطبيق</h3><p class="muted small">Mesut IPTV · مشغل قوائم IPTV الشخصية · إصدار 2.0</p></div></div></section></main><footer class="foot wrap">MESUT IPTV · مشغل وسائط لمصادرك الخاصة فقط</footer>
+<section class="player hidden" id="player"><div class="playerbar"><button class="secondary" id="closePlayer">✕ إغلاق</button><div class="player-title" id="playerTitle">المشاهدة</div><button class="secondary" id="fullScreen">⛶ ملء الشاشة</button></div><video id="video" controls autoplay playsinline></video></section><div class="toast hidden" id="toast"></div>
 <script>
-const $=i=>document.getElementById(i);
-let items=[],hls=null,cat="all";
-
-function enter(){
- $("login").classList.add("hide");$("app").classList.remove("hide");
- build();
-}
-function card(it){
- const d=document.createElement("div");d.className="c";
- d.innerHTML=(it.logo?'<img loading="lazy" referrerpolicy="no-referrer" alt="">':'')+'<span></span>';
- if(it.logo){const im=d.querySelector("img");im.src=it.logo;im.onerror=()=>im.remove()}
- d.querySelector("span").textContent=it.name;
- d.tabIndex=0;d.onclick=()=>play(it);d.onkeydown=e=>{if(e.key==="Enter")play(it)};return d;
-}
-function build(){
- const tabs=[["all","الكل"],["live","مباشر"],["movies","أفلام"],["series","مسلسلات"]];
- $("nav").innerHTML="";
- tabs.forEach(([k,n])=>{const b=document.createElement("button");b.textContent=n;b.className=k===cat?"on":"";b.onclick=()=>{cat=k;build()};$("nav").appendChild(b)});
- const list=items.filter(i=>cat==="all"||i.k===cat);
- $("res").classList.add("hide");$("home").classList.remove("hide");$("q").value="";
- const pick=list[Math.floor(Math.random()*list.length)]||items[0];
- $("ht").textContent=pick.name;$("hp").onclick=()=>play(pick);
- if(pick.logo)$("hero").style.backgroundImage=`linear-gradient(0deg,#141414,#0000 60%),url("${pick.logo.replace(/"/g,"")}")`;
- const groups={};list.forEach(i=>(groups[i.group]=groups[i.group]||[]).push(i));
- $("rows").innerHTML="";
- Object.entries(groups).forEach(([g,arr])=>{
-  const r=document.createElement("div");r.className="row";
-  const h=document.createElement("h3");h.textContent=g;
-  const s=document.createElement("div");s.className="sc";
-  arr.slice(0,60).forEach(i=>s.appendChild(card(i)));
-  r.append(h,s);$("rows").appendChild(r);
- });
-}
-$("q").oninput=e=>{
- const v=e.target.value.trim().toLowerCase();
- if(!v){build();return}
- $("home").classList.add("hide");$("res").classList.remove("hide");$("res").innerHTML="";
- items.filter(i=>i.name.toLowerCase().includes(v)).slice(0,200).forEach(i=>$("res").appendChild(card(i)));
-};
-function play(it){
- if(it.sid)return episodes(it);
- const v=$("v");$("pl").classList.remove("hide");$("pt").textContent=it.name;$("msg").textContent="";
- if(hls){hls.destroy();hls=null}
- const u=it.url;
- if(/\.m3u8(\?|$)/i.test(u)||/\/live\//.test(u)){
-  if(window.Hls&&Hls.isSupported()){
-   hls=new Hls();hls.loadSource(u);hls.attachMedia(v);
-   hls.on(Hls.Events.ERROR,(e,d)=>{if(d.fatal)$("msg").textContent="تعذّر تشغيل هذه القناة"});
-  }else v.src=u;
- }else v.src=u;
- v.play().catch(()=>{});
-}
-$("v").onerror=()=>{$("msg").textContent="تعذّر تشغيل هذا البث"};
-$("cl").onclick=()=>{$("v").pause();$("v").removeAttribute("src");if(hls){hls.destroy();hls=null}$("pl").classList.add("hide")};
-$("out").onclick=()=>{try{localStorage.removeItem(KX)}catch(e){}XT=null;items=[];$("app").classList.add("hide");$("login").classList.remove("hide")};
-document.addEventListener("keydown",e=>{if(e.key==="Escape"||e.key==="Backspace"&&!/INPUT/.test(document.activeElement.tagName)){if(!$("pl").classList.contains("hide"))$("cl").click();else if(!$("ep").classList.contains("hide"))$("epc").click()}});
-window.onscroll=()=>$("hd").classList.toggle("solid",scrollY>40);
-
-
-const KX="mesut_xt";let XT=null;
-async function xtLogin(c,save){
- const s=c.s.replace(/\/+$/,""),u=c.u,p=c.p;
- const base=`${s}/player_api.php?username=${encodeURIComponent(u)}&password=${encodeURIComponent(p)}`;
- const J=a=>fetch(base+(a?"&action="+a:"")).then(r=>r.json());
- try{
-  $("err").textContent="جارٍ تسجيل الدخول…";
-  const a=await J("");
-  if(!a.user_info||String(a.user_info.auth)!=="1"){$("err").textContent="بيانات الدخول غير صحيحة أو الحساب منتهٍ";return}
-  const [lc,ls,vc,vs,sc,ss]=await Promise.all(["get_live_categories","get_live_streams","get_vod_categories","get_vod_streams","get_series_categories","get_series"].map(x=>J(x).catch(()=>[])));
-  const m=arr=>Object.fromEntries((Array.isArray(arr)?arr:[]).map(c=>[c.category_id,c.category_name]));
-  const L=m(lc),V=m(vc),S=m(sc),out=[];
-  (Array.isArray(ls)?ls:[]).forEach(x=>out.push({name:x.name,logo:x.stream_icon,group:L[x.category_id]||"مباشر",k:"live",url:`${s}/live/${u}/${p}/${x.stream_id}.m3u8`}));
-  (Array.isArray(vs)?vs:[]).forEach(x=>out.push({name:x.name,logo:x.stream_icon,group:V[x.category_id]||"أفلام",k:"movies",url:`${s}/movie/${u}/${p}/${x.stream_id}.${x.container_extension||"mp4"}`}));
-  (Array.isArray(ss)?ss:[]).forEach(x=>out.push({name:x.name,logo:x.cover,group:S[x.category_id]||"مسلسلات",k:"series",sid:x.series_id,url:""}));
-  if(!out.length){$("err").textContent="الحساب لا يحتوي على محتوى";return}
-  XT={s,u,p};items=out;
-  if(save){try{localStorage.setItem(KX,JSON.stringify(c))}catch(e){}}
-  $("err").textContent="";enter();
- }catch(e){$("err").textContent="تعذّر الاتصال بالسيرفر. تأكد من العنوان، وأن الصفحة وhttp/https متوافقان."}
-}
-async function episodes(it){
- $("ep").classList.remove("hide");$("eh").textContent=it.name;$("el").textContent="جارٍ التحميل…";
- try{
-  const r=await fetch(`${XT.s}/player_api.php?username=${encodeURIComponent(XT.u)}&password=${encodeURIComponent(XT.p)}&action=get_series_info&series_id=${it.sid}`).then(r=>r.json());
-  $("el").innerHTML="";
-  Object.keys(r.episodes||{}).sort((a,b)=>a-b).forEach(se=>{
-   const h=document.createElement("h3");h.textContent="الموسم "+se;h.style.margin="14px 0 8px";$("el").appendChild(h);
-   r.episodes[se].forEach(e=>{
-    const d=document.createElement("div");d.className="e";d.tabIndex=0;d.onkeydown=e=>{if(e.key==="Enter")d.click()};d.textContent=(e.episode_num?e.episode_num+". ":"")+(e.title||"حلقة");
-    d.onclick=()=>{$("ep").classList.add("hide");play({name:it.name+" - "+(e.title||""),url:`${XT.s}/series/${XT.u}/${XT.p}/${e.id}.${e.container_extension||"mp4"}`})};
-    $("el").appendChild(d);
-   });
-  });
-  if(!$("el").children.length)$("el").textContent="لا توجد حلقات";
- }catch(e){$("el").textContent="تعذّر تحميل الحلقات"}
-}
-$("epc").onclick=()=>$("ep").classList.add("hide");
-$("goX").onclick=()=>{
- let sv=$("xs").value.trim();const u=$("xu").value.trim(),p=$("xp").value.trim();
- if(!sv||!u||!p){$("err").textContent="أدخل السيرفر واسم المستخدم وكلمة المرور";return}
- if(!/^https?:\/\//i.test(sv))sv="http://"+sv;
- xtLogin({s:sv,u,p},true);
-};
-try{const x=localStorage.getItem(KX);if(x)xtLogin(JSON.parse(x),false)}catch(e){}
-</script>
-</body>
-</html>
+const $=id=>document.getElementById(id);const DB='mesut_iptv_v2';let state={sources:[],items:[],favorites:[],page:'home',kind:'xtream',hls:null,epg:{}};
+function notify(t){$('toast').textContent=t;$('toast').classList.remove('hidden');clearTimeout(notify.timer);notify.timer=setTimeout(()=>$('toast').classList.add('hidden'),2800)}
+function save(){localStorage.setItem(DB,JSON.stringify({sources:state.sources,favorites:state.favorites,epg:state.epg}))}
+function load(){try{const d=JSON.parse(localStorage.getItem(DB)||'{}');state.sources=d.sources||[];state.favorites=d.favorites||[];state.epg=d.epg||{};state.items=state.sources.flatMap(s=>s.items||[])}catch(e){}}
+function escapeHtml(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function showPage(p){state.page=p;['homePage','catalogPage','sourcePage','settingsPage'].forEach(x=>$(x).classList.add('hidden'));({home:'homePage',live:'catalogPage',movies:'catalogPage',series:'catalogPage',favorites:'catalogPage',sources:'sourcePage',settings:'settingsPage'})[p]&&$(({home:'homePage',live:'catalogPage',movies:'catalogPage',series:'catalogPage',favorites:'catalogPage',sources:'sourcePage',settings:'settingsPage'})[p]).classList.remove('hidden');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===p));if(['live','movies','series','favorites'].includes(p))renderCatalog();if(p==='home')renderHome();if(p==='settings')renderSettings();}
+function classify(group,name,url){let s=(group+' '+name+' '+url).toLowerCase();if(/series|episode|مسلسل|مسلسلات/.test(s))return'series';if(/movie|film|vod|فيلم|أفلام/.test(s))return'movies';return'live'}
+function normalizeItem(x){return {id:x.id||x.url,name:x.name||'بدون اسم',logo:x.logo||'',group:x.group||'غير مصنف',kind:x.kind||classify(x.group||'',x.name||'',x.url||''),url:x.url||'',tvgId:x.tvgId||''}}
+function tile(it){let d=document.createElement('article');d.className='tile';let img=it.logo?`<img src="${escapeHtml(it.logo)}" loading="lazy" onerror="this.remove()">`:'<div class="fallback">▶</div>';d.innerHTML=`<button class="fav" title="المفضلة">${state.favorites.includes(it.id)?'♥':'♡'}</button><div class="poster">${img}</div><div class="tile-info"><div class="tile-title">${escapeHtml(it.name)}</div><div class="tile-sub">${escapeHtml(it.group)}</div></div>`;d.querySelector('.fav').onclick=e=>{e.stopPropagation();toggleFav(it.id)};d.onclick=()=>play(it);return d}
+function renderCards(target,arr){$(target).innerHTML='';if(!arr.length){$(target).innerHTML='<div class="empty" style="grid-column:1/-1">لا يوجد محتوى هنا بعد. أضف قائمة IPTV للبدء.</div>';return}arr.slice(0,180).forEach(i=>$(target).appendChild(tile(i)))}
+function renderHome(){let el=$('homeSections');el.innerHTML='';[['قنوات مباشرة','live'],['أفلام','movies'],['مسلسلات','series']].forEach(([title,k])=>{let arr=state.items.filter(x=>x.kind===k).slice(0,10);let sec=document.createElement('section');sec.className='section';sec.innerHTML=`<div class="section-head"><h2>${title}</h2><span class="pill">${arr.length} عناصر</span></div><div class="cards"></div>`;let c=sec.querySelector('.cards');if(!arr.length)c.innerHTML='<div class="empty" style="grid-column:1/-1">أضف مصدراً لعرض المحتوى</div>';else arr.forEach(i=>c.appendChild(tile(i)));el.appendChild(sec)})}
+function renderCatalog(){let p=state.page,arr=state.items.filter(x=>p==='favorites'?state.favorites.includes(x.id):x.kind===p);let q=$('search').value.trim().toLowerCase();if(q)arr=arr.filter(x=>(x.name+' '+x.group).toLowerCase().includes(q));let groups=[...new Set(arr.map(x=>x.group))];$('groupFilter').innerHTML='<option value="all">كل التصنيفات</option>'+groups.map(g=>`<option>${escapeHtml(g)}</option>`).join('');let g=$('groupFilter').value;if(g!=='all')arr=arr.filter(x=>x.group===g);$('catalogTitle').textContent=({live:'البث المباشر',movies:'الأفلام',series:'المسلسلات',favorites:'المفضلة'})[p]||'المحتوى';$('countPill').textContent=arr.length+' عنصر';renderCards('catalog',arr)}
+function toggleFav(id){state.favorites=state.favorites.includes(id)?state.favorites.filter(x=>x!==id):[...state.favorites,id];save();state.page==='home'?renderHome():renderCatalog()}
+function parseM3U(text){let out=[],meta=null;for(let line of text.replace(/^\uFEFF/,'').split(/\r?\n/)){line=line.trim();if(line.startsWith('#EXTINF')){let attrs={};for(let m of line.matchAll(/([\w-]+)="([^"]*)"/g))attrs[m[1]]=m[2];let name=line.slice(line.lastIndexOf(',')+1).trim()||attrs['tvg-name']||'قناة';meta={name,logo:attrs['tvg-logo']||'',group:attrs['group-title']||'غير مصنف',tvgId:attrs['tvg-id']||''}}else if(line&&!line.startsWith('#')&&meta){out.push(normalizeItem({...meta,url:line,id:line}));meta=null}}return out}
+async function fetchText(url){let r=await fetch(url);if(!r.ok)throw Error('HTTP '+r.status);return await r.text()}
+async function addXtream(){let s=$('server').value.trim().replace(/\/+$/,''),u=$('username').value.trim(),p=$('password').value;if(!s||!u||!p)throw Error('أكمل بيانات السيرفر');if(!/^https?:\/\//i.test(s))s='http://'+s;let api=(action='')=>fetchText(`${s}/player_api.php?username=${encodeURIComponent(u)}&password=${encodeURIComponent(p)}${action?'&action='+action:''}`).then(JSON.parse);let auth=await api();if(String(auth?.user_info?.auth)!=='1')throw Error('بيانات الدخول غير صحيحة أو الاشتراك غير صالح');let [lc,ls,mc,ms,sc,ss]=await Promise.all(['get_live_categories','get_live_streams','get_vod_categories','get_vod_streams','get_series_categories','get_series'].map(a=>api(a).catch(()=>[])));let map=a=>Object.fromEntries((Array.isArray(a)?a:[]).map(x=>[x.category_id,x.category_name]));let items=[];for(let x of (Array.isArray(ls)?ls:[]))items.push(normalizeItem({id:'x-live-'+x.stream_id,name:x.name,logo:x.stream_icon,group:map(lc)[x.category_id]||'مباشر',kind:'live',url:`${s}/live/${encodeURIComponent(u)}/${encodeURIComponent(p)}/${x.stream_id}.${x.container_extension||'ts'}`}));for(let x of (Array.isArray(ms)?ms:[]))items.push(normalizeItem({id:'x-movie-'+x.stream_id,name:x.name,logo:x.stream_icon,group:map(mc)[x.category_id]||'أفلام',kind:'movies',url:`${s}/movie/${encodeURIComponent(u)}/${encodeURIComponent(p)}/${x.stream_id}.${x.container_extension||'mp4'}`}));for(let x of (Array.isArray(ss)?ss:[]))items.push(normalizeItem({id:'x-series-'+x.series_id,name:x.name,logo:x.cover,group:map(sc)[x.category_id]||'مسلسلات',kind:'series',url:'',seriesId:x.series_id,server:s,username:u,password:p}));return {name:'Xtream · '+s,kind:'xtream',items,credentials:{s,u,p},epg:$('epgUrl').value.trim()}}
+async function addM3U(url,text){let raw=text??await fetchText(url);let items=parseM3U(raw);if(!items.length)throw Error('لم نعثر على قنوات في القائمة. تحقق من ملف M3U');return {name:url||'ملف M3U',kind:'m3u',items,epg:$('epgUrl').value.trim()}}
+function openSource(){showPage('sources');$('sourceMsg').textContent='';}
+document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{state.kind=b.dataset.tab;document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('selected',x===b));['xtream','m3u','file'].forEach(k=>$((k==='xtream'?'xtreamForm':k==='m3u'?'m3uForm':'fileForm')).classList.toggle('hidden',k!==state.kind))});
+$('connectBtn').onclick=async()=>{let b=$('connectBtn');b.disabled=true;b.textContent='جارٍ الاتصال…';$('sourceMsg').textContent='يتم تحميل بيانات قائمتك…';try{let src;if(state.kind==='xtream')src=await addXtream();else if(state.kind==='m3u')src=await addM3U($('m3uUrl').value.trim());else{let f=$('m3uFile').files[0];if(!f)throw Error('اختر ملف M3U');src=await addM3U(f.name,await f.text())}src.id='src-'+Date.now();state.sources.push(src);state.items=state.sources.flatMap(s=>s.items||[]);save();$('sourceMsg').textContent='تمت إضافة '+src.items.length+' عنصر بنجاح';notify('تم الاتصال بنجاح');showPage('home')}catch(e){$('sourceMsg').textContent=e.message||'حدث خطأ أثناء الاتصال'}finally{b.disabled=false;b.textContent='اتصال وحفظ المصدر'}};
+function renderSettings(){$('sourceList').innerHTML=state.sources.length?state.sources.map(s=>`<div style="padding:9px 0;border-bottom:1px solid var(--line)"><b>${escapeHtml(s.name)}</b><div class="small muted">${s.items.length} عنصر · ${s.kind}</div><button class="ghost danger" data-remove="${s.id}">حذف المصدر</button></div>`).join(''):'لا توجد مصادر محفوظة';document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{state.sources=state.sources.filter(s=>s.id!==b.dataset.remove);state.items=state.sources.flatMap(s=>s.items||[]);save();renderSettings();renderHome();notify('تم حذف المصدر')})}
+async function play(it){if(it.kind==='series'&&it.seriesId){await showEpisodes(it);return}let v=$('video');$('playerTitle').textContent=it.name;$('player').classList.remove('hidden');if(state.hls){state.hls.destroy();state.hls=null}v.pause();v.removeAttribute('src');v.load();let url=it.url;if(/\.m3u8($|\?)/i.test(url)&&window.Hls&&Hls.isSupported()){state.hls=new Hls({enableWorker:true,lowLatencyMode:true});state.hls.loadSource(url);state.hls.attachMedia(v);state.hls.on(Hls.Events.ERROR,(e,d)=>{if(d.fatal)notify('تعذر تشغيل البث؛ تحقق من الرابط أو صيغة البث')})}else v.src=url;v.play().catch(()=>notify('اضغط تشغيل لبدء المشاهدة'))}
+async function showEpisodes(it){try{let c=it;let url=`${c.server}/player_api.php?username=${encodeURIComponent(c.username)}&password=${encodeURIComponent(c.password)}&action=get_series_info&series_id=${c.seriesId}`;let data=JSON.parse(await fetchText(url));let all=Object.entries(data.episodes||{}).flatMap(([season,eps])=>eps.map(e=>({season,e})));if(!all.length)throw Error('لا توجد حلقات');let choice=prompt('الحلقات المتاحة:\n'+all.map((x,i)=>`${i+1}. الموسم ${x.season} · ${x.e.title||'حلقة '+x.e.episode_num}`).join('\n')+'\n\nاكتب رقم الحلقة');let x=all[Number(choice)-1];if(!x)return;play({name:it.name+' · '+(x.e.title||'حلقة'),url:`${c.server}/series/${encodeURIComponent(c.username)}/${encodeURIComponent(c.password)}/${x.e.id}.${x.e.container_extension||'mp4'}`})}catch(e){notify(e.message||'تعذر تحميل الحلقات')}}
+$('closePlayer').onclick=()=>{let v=$('video');v.pause();v.removeAttribute('src');v.load();if(state.hls){state.hls.destroy();state.hls=null}$('player').classList.add('hidden')};$('fullScreen').onclick=()=>{let v=$('video');if(v.requestFullscreen)v.requestFullscreen();else if(v.webkitEnterFullscreen)v.webkitEnterFullscreen()};
+$('nav').onclick=e=>{let b=e.target.closest('button[data-page]');if(b)showPage(b.dataset.page)};$('addSource').onclick=openSource;$('heroAdd').onclick=openSource;$('heroLive').onclick=()=>showPage('live');$('cancelSource').onclick=()=>showPage('home');$('groupFilter').onchange=renderCatalog;$('search').oninput=()=>{if(['live','movies','series','favorites'].includes(state.page))renderCatalog();else if(state.page==='home'){let q=$('search').value.trim().toLowerCase();if(q){showPage('live');renderCatalog()}}};$('refreshBtn').onclick=()=>notify('لتحديث البيانات أعد إضافة المصدر حالياً');$('reloadData').onclick=()=>{state.items=state.sources.flatMap(s=>s.items||[]);renderHome();notify('تم تحديث البيانات المحلية')};$('clearData').onclick=()=>{if(confirm('هل تريد حذف جميع المصادر والمفضلة المحفوظة؟')){localStorage.removeItem(DB);state.sources=[];state.items=[];state.favorites=[];renderSettings();renderHome();notify('تم مسح البيانات')}};
+load();renderHome();if(!state.sources.length)setTimeout(()=>notify('مرحباً بك في Mesut IPTV · أضف مصدر IPTV للبدء'),700);
+</script></body></html>
