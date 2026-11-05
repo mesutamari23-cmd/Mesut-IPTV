@@ -1,36 +1,27 @@
-# Mesut — بناء التطبيق (أندرويد / Android TV / آيفون)
+# Mesut IPTV 2.0
 
-## المتطلبات
-- Node.js 18 أو أحدث
-- Android Studio (يتضمن JDK 17)
-- للآيفون: جهاز Mac مع Xcode
+مشغل IPTV لمصادر المستخدم المصرح له باستخدامها. لا يتضمن التطبيق قوائم قنوات أو اشتراكات أو محتوى مدفوعاً.
 
-## أندرويد وAndroid TV
-```
-npm install
-npx cap add android
-python3 patch-tv.py
-npx cap sync android
-npx cap open android
-```
-في Android Studio: Build ← Build Bundle(s) / APK(s) ← Build APK(s).
-ملف الـ APK يكون في android/app/build/outputs/apk/debug/
+## المزايا
+- واجهة عربية RTL بتصميم داكن متجاوب.
+- مصادر Xtream Codes: قنوات مباشرة وأفلام ومسلسلات وحلقات.
+- قوائم M3U عبر رابط أو ملف محلي.
+- بحث وتصنيفات ومفضلة محفوظة محلياً.
+- مشغل HTML5 مع HLS.js عند توفر دعم المتصفح.
+- دعم أساس Android TV عبر إعدادات Manifest.
 
-تثبيته على التلفاز: فعّل «خيارات المطور» ثم «تصحيح ADB»، ثم:
-```
-adb connect IP_التلفاز:5555
-adb install app-debug.apk
-```
-أو انسخ الملف بفلاشة وثبّته بمدير ملفات.
+## ملاحظات تقنية مهمة
+- نجاح تشغيل روابط IPTV يعتمد على صلاحية الاشتراك، وصيغة البث، ودعم السيرفر للاتصالات من WebView. بعض السيرفرات تمنع CORS أو تتطلب HTTPS؛ عندها قد يلزم تكامل أصلي مع Android/Media3 أو إعداد وسيط يملكه المستخدم.
+- HLS.js يستخدم CDN ويتطلب اتصال إنترنت. يمكن تضمين المكتبة محلياً لاحقاً للإتاحة دون الاعتماد على CDN.
+- بيانات Xtream تحفظ محلياً في WebView LocalStorage. لا تشارك ملف بيانات التطبيق أو بيانات الدخول.
+- EPG field محفوظ في إعداد المصدر حالياً، لكن ربط XMLTV وعرض البرامج يحتاج تنفيذ مرحلة لاحقة.
+- التطبيق لا يتجاوز DRM أو قيود الاشتراكات ولا يوفّر مصادر محتوى.
 
-## آيفون
-```
-npm install @capacitor/ios
-npx cap add ios
-npx cap sync ios
-npx cap open ios
-```
-ثم شغّله من Xcode (النشر على App Store يحتاج حساب مطوّر).
+## بناء APK عبر GitHub Actions من الهاتف
+1. ارفع محتويات هذا المجلد إلى جذر مستودع GitHub (تأكد أن `package.json` و`www/` و`.github/` في الجذر).
+2. افتح تبويب **Actions** في المستودع.
+3. اختر **Build Mesut Android APK** ثم **Run workflow**.
+4. بعد انتهاء البناء افتح نتيجة التشغيل، ثم نزّل Artifact باسم `mesut-iptv-debug-apk`.
+5. فك ZIP ونزّل `app-debug.apk` إلى هاتف Android وثبّته بعد السماح بالتثبيت من هذا المصدر.
 
-## بعد تعديل الواجهة
-عدّل www/index.html ثم `npx cap sync`.
+ملف APK الناتج Debug للتجربة. للنشر على Google Play يجب إعداد توقيع Release وملف AAB ومراجعة سياسات المتجر.

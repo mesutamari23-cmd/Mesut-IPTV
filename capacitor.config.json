@@ -1,6 +1,6 @@
 {
   "appId": "com.mesut.iptv",
-  "appName": "Mesut",
+  "appName": "Mesut IPTV",
   "webDir": "www",
   "server": { "androidScheme": "http", "cleartext": true },
   "plugins": { "CapacitorHttp": { "enabled": true } }

@@ -1,6 +1,6 @@
 {
   "name": "mesut-iptv",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "dependencies": {
     "@capacitor/android": "^6.2.0",
@@ -8,5 +8,6 @@
   },
   "devDependencies": {
     "@capacitor/cli": "^6.2.0"
-  }
+  },
+  "description": "Mesut IPTV player for user-provided M3U and Xtream sources"
 }
